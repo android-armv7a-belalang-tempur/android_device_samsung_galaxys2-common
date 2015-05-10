@@ -94,6 +94,8 @@ BOARD_NONBLOCK_MODE_PROCESS := true
 BOARD_USE_STOREMETADATA := true
 BOARD_USE_METADATABUFFERTYPE := true
 BOARD_USES_MFC_FPS := true
+BOARD_USE_S3D_SUPPORT := true
+BOARD_USE_CSC_FIMC := false
 
 # Audio
 BOARD_USE_TINYALSA_AUDIO := true
@@ -140,6 +142,7 @@ WIFI_DRIVER_MODULE_ARG           := "firmware_path=/system/etc/wifi/bcmdhd_sta.b
 WIFI_DRIVER_MODULE_AP_ARG        := "firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt"
 WIFI_BAND                        := 802_11_ABG
 BOARD_HAVE_SAMSUNG_WIFI          := true
+BOARD_NO_WIFI_HAL                := false
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
@@ -157,7 +160,7 @@ BOARD_SEPOLICY_DIRS := \
     device/samsung/galaxys2-common/selinux
 
 BOARD_SEPOLICY_UNION := \
-	bluetooth.te \
+    bluetooth.te \
     file_contexts \
     device.te \
     domain.te \
