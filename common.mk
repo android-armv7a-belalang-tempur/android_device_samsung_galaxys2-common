@@ -108,15 +108,15 @@ PRODUCT_PACKAGES += \
     libSEC_OMX_Resourcemanager \
     libSEC_OMX_Core \
     libSEC_OMX_Vdec \
+    libSEC_OMX_Venc \
+    libSEC_OMX_Adec \
     libOMX.SEC.AVC.Decoder \
     libOMX.SEC.M4V.Decoder \
     libOMX.SEC.WMV.Decoder \
     libOMX.SEC.VP8.Decoder \
-    libSEC_OMX_Venc \
+    libOMX.SEC.MP3.Decoder \
     libOMX.SEC.AVC.Encoder \
-    libOMX.SEC.M4V.Encoder \
-    libSEC_OMX_Adec \
-    libOMX.SEC.MP3.Decoder
+    libOMX.SEC.M4V.Encoder
 
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml \
@@ -134,7 +134,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # RIL
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.ril_class=SamsungExynos4RIL \
-    mobiledata.interfaces=pdp0,wlan0,gprs,ppp0 \
+    mobiledata.interfaces=pdp0,wlan0,gprs,ppp0,rmnet0,rmnet1 \
     ro.telephony.call_ring.multiple=false \
     ro.telephony.call_ring.delay=3000
 
