@@ -46,6 +46,7 @@ TARGET_BOOTLOADER_BOARD_NAME := smdk4210
 
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
+TARGET_NO_SEPARATE_RECOVERY := true
 
 TARGET_PROVIDES_INIT := true
 TARGET_PROVIDES_INIT_TARGET_RC := true
@@ -87,19 +88,35 @@ BOARD_USES_HWCOMPOSER := true
 BOARD_USE_SYSFS_VSYNC_NOTIFICATION := true
 
 # OMX
+BOARD_CANT_REALLOCATE_OMX_BUFFERS := true
 BOARD_USE_SAMSUNG_COLORFORMAT := true
 BOARD_NONBLOCK_MODE_PROCESS := true
 BOARD_USE_STOREMETADATA := true
 BOARD_USE_METADATABUFFERTYPE := true
 BOARD_USES_MFC_FPS := true
+BOARD_USE_S3D_SUPPORT := true
+BOARD_USE_CSC_FIMC := false
 
 # Audio
 BOARD_USE_TINYALSA_AUDIO := true
 BOARD_USE_YAMAHA_MC1N2_AUDIO := true
 
+# WVM
+BOARD_USES_LEGACY_ACQUIRE_WVM := true
+
+# PIE Support
+TARGET_ENABLE_NON_PIE_SUPPORT := true
+
+# Logging
+TARGET_USES_LOGD := false
+
+# MMAP
+BOARD_USES_LEGACY_MMAP := true
+
 # RIL
 BOARD_PROVIDES_LIBRIL := true
 BOARD_MODEM_TYPE := xmm6260
+BOARD_RIL_CLASS := ../../../hardware/samsung/exynos4/ril
 
 # Camera
 BOARD_USES_PROPRIETARY_LIBFIMC := true
@@ -125,6 +142,7 @@ WIFI_DRIVER_MODULE_ARG           := "firmware_path=/system/etc/wifi/bcmdhd_sta.b
 WIFI_DRIVER_MODULE_AP_ARG        := "firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt"
 WIFI_BAND                        := 802_11_ABG
 BOARD_HAVE_SAMSUNG_WIFI          := true
+BOARD_NO_WIFI_HAL                := false
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
@@ -142,14 +160,20 @@ BOARD_SEPOLICY_DIRS := \
     device/samsung/galaxys2-common/selinux
 
 BOARD_SEPOLICY_UNION := \
-    device.te \
-    drmserver.te \
-    ueventd.te \
-    domain.te \
-    file.te \
+    bluetooth.te \
     file_contexts \
+    device.te \
+    domain.te \
+    drmserver.te \
+    file.te \
+    init.te \
+    mediaserver.te \
     rild.te \
-    vold.te
+    system_app.te \
+    system_server.te \
+    ueventd.te \
+    vold.te \
+    wpa_supplicant.te
 
 # Recovery
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/galaxys2-common/recovery/recovery_keys.c
@@ -168,7 +192,8 @@ TARGET_SPECIFIC_HEADER_PATH := device/samsung/galaxys2-common/include
 # Charging mode
 BOARD_CHARGING_MODE_BOOTING_LPM := /sys/class/power_supply/battery/batt_lp_charging
 BOARD_BATTERY_DEVICE_NAME := "battery"
-BOARD_CHARGER_RES := device/samsung/galaxys2-common/res/charger
+BOARD_CHARGER_IMG_PATH := device/samsung/galaxys2-common/res/charger
+BOARD_CHARGER_ENABLE_SUSPEND := true
 
 BOARD_CUSTOM_BOOTIMG_MK := device/samsung/galaxys2-common/shbootimg.mk
 

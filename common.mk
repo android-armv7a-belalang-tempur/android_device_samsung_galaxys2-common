@@ -21,7 +21,6 @@ DEVICE_PACKAGE_OVERLAYS := $(COMMON_PATH)/overlay
 PRODUCT_COPY_FILES := \
     $(COMMON_PATH)/rootdir/fstab.smdk4210:root/fstab.smdk4210 \
     $(COMMON_PATH)/rootdir/twrp.fstab:recovery/root/etc/twrp.fstab \
-    $(COMMON_PATH)/rootdir/lpm.rc:root/lpm.rc \
     $(COMMON_PATH)/rootdir/init.smdk4210.usb.rc:root/init.smdk4210.usb.rc \
     $(COMMON_PATH)/rootdir/init.smdk4210.rc:root/init.smdk4210.rc \
     $(COMMON_PATH)/rootdir/ueventd.smdk4210.rc:root/ueventd.smdk4210.rc
@@ -39,14 +38,19 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/tinyalsa-audio.xml:system/etc/tinyalsa-audio.xml \
     $(COMMON_PATH)/configs/audio_policy.conf:system/etc/audio_policy.conf
 
-# Bluetooth configuration files
-#PRODUCT_COPY_FILES += \
-#    system/bluetooth/data/main.le.conf:system/etc/bluetooth/main.conf
-
 # Wifi
 PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/configs/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
+    $(COMMON_PATH)/configs/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf \
+    $(COMMON_PATH)/configs/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
     $(COMMON_PATH)/configs/bcmdhd.cal:system/etc/wifi/bcmdhd.cal
+
+PRODUCT_PACKAGES := \
+    hostapd \
+    hostapd_default.conf \
+    dhcpcd.conf \
+    libwpa_client \
+    wpa_supplicant \
+    wpa_supplicant.conf
 
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
@@ -60,10 +64,10 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/sirfgps.conf:system/etc/sirfgps.conf
 
 # Packages
-PRODUCT_PACKAGES := \
+PRODUCT_PACKAGES += \
     com.android.future.usb.accessory \
     SamsungServiceMode \
-    OmniTorch
+    macloader
 
 # Audio Packages
 PRODUCT_PACKAGES += \
@@ -103,19 +107,22 @@ PRODUCT_PACKAGES += \
     libSEC_OMX_Resourcemanager \
     libSEC_OMX_Core \
     libSEC_OMX_Vdec \
+    libSEC_OMX_Venc \
+    libSEC_OMX_Adec \
     libOMX.SEC.AVC.Decoder \
     libOMX.SEC.M4V.Decoder \
     libOMX.SEC.WMV.Decoder \
     libOMX.SEC.VP8.Decoder \
-    libSEC_OMX_Venc \
+    libOMX.SEC.MP3.Decoder \
     libOMX.SEC.AVC.Encoder \
-    libOMX.SEC.M4V.Encoder \
-    libSEC_OMX_Adec \
-    libOMX.SEC.MP3.Decoder
+    libOMX.SEC.M4V.Encoder
 
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml \
-    $(COMMON_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml
+    $(COMMON_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_video_le.xml:system/etc/media_codecs_google_video_le.xml
 
 # Graphics
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -126,7 +133,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # RIL
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.ril_class=SamsungExynos4RIL \
-    mobiledata.interfaces=pdp0,wlan0,gprs,ppp0 \
+    mobiledata.interfaces=pdp0,wlan0,gprs,ppp0,rmnet0,rmnet1 \
     ro.telephony.call_ring.multiple=false \
     ro.telephony.call_ring.delay=3000
 
